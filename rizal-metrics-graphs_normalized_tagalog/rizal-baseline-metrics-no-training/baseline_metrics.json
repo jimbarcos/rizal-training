@@ -1,0 +1,7 @@
+{
+    "eval_loss": 4.1909,
+    "eval_bleu": 7.2986,
+    "eval_chrf": 31.9563,
+    "eval_bertscore": 0.8765,
+    "eval_comet": 0.5638
+}

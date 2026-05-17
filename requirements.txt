@@ -1,0 +1,25 @@
+# Core Machine Learning & NLP
+torch>=2.0.0
+transformers>=4.38.0
+datasets
+peft
+safetensors
+accelerate
+evaluate
+sacrebleu
+sacremoses
+
+# Sentence Alignment & Processing
+sentence-transformers
+spacy
+pandas
+scikit-learn
+
+# API Microservice
+fastapi
+uvicorn
+pydantic
+
+
+#pip install bert_score unbabel-comet
+#python -m spacy download xx_sent_ud_sm
