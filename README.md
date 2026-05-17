@@ -57,6 +57,22 @@ The training script uses `include_inputs_for_metrics=True`, so COMET can inspect
 
 For this project, COMET is the main early-stopping and best-model metric because it rewards accurate, fluent translations even when the wording differs from the reference.
 
+## Why Loss Can Mislead
+
+During training, `eval_loss` is computed with token-level cross-entropy, so it only asks whether the model predicted the exact reference token at each step. That makes it a useful optimization signal, but it can create an overfitting illusion for translation tasks.
+
+A model may produce a lower-quality loss score even while generating better translations, because valid synonyms, paraphrases, and more natural sentence reordering are still penalized if they do not match the reference tokens exactly. In other words, loss measures strict token agreement, not translation quality.
+
+That is why this project does not use loss as the best-model gate. Instead, it relies on COMET, which compares the Tagalog source, the generated English candidate, and the reference translation together. This makes it much better at judging whether the model is actually learning to translate meaning, not just memorizing wording.
+
+In practical terms:
+
+- BLEU and chrF are lexical metrics, so they reward exact or near-exact surface overlap.
+- BERTScore is better at semantic similarity, but it still evaluates candidate against reference at the token level.
+- COMET is source-aware and is closer to a bilingual human evaluation.
+
+Because of that, a rising `eval_loss` does not necessarily mean the model is getting worse at translation. It may simply mean the model is becoming less rigid and more semantically flexible, which is often the desirable direction for historical text translation.
+
 ## Improvements Made
 
 Compared with the base multilingual translation model, this project improves the pipeline in several ways:
